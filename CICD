@@ -1,48 +1,18 @@
 pipeline {
-    agent any
-    
-    stages {
-        stage('Checkout') {
-            steps {
-                // Checkout source code from version control (e.g., Git)
-                git 'https://github.com/your/repository.git'
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                // Build your application (e.g., using Maven)
-                sh 'mvn clean install'
-            }
-        }
-        
-        stage('Test') {
-            steps {
-                // Run your tests
-                sh 'mvn test'
-            }
-        }
-        
-        stage('Deploy') {
-            steps {
-                // Deploy your application (e.g., to a web server)
-                sh 'deploy-script.sh'
-            }
-        }
-    }
-    
-    post {
-        success {
-            // Actions to be performed if the pipeline is successful
-            echo 'Pipeline succeeded!'
 
-            // You can trigger other jobs or notifications here
+stage {
+        stage('checkout') { 
+            
         }
-        failure {
-            // Actions to be performed if the pipeline fails
-            echo 'Pipeline failed!'
-
-            // You can trigger other jobs or notifications here
+            stage('Build') { 
+            
         }
-    }
+        stage('Test') { 
+            
+        }
+        stage('scan') { 
+            
+        }
+stage('artifactory'){
+    }}
 }
