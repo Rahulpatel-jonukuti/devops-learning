@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: 'Development'
+    AllowedValues: ['Development', 'Production']
+    Description: 'Environment type for the stack'
+
+Resources:
+  MyS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: 
+        Fn::Sub: 'my-unique-bucket-${Environment}'
+
+  MyDynamoDBTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: 
+        Fn::Sub: 'my-dynamodb-table-${Environment}'
+      AttributeDefinitions:
+        - AttributeName: 'ID'
+          AttributeType: 'N'
+      KeySchema:
+        - AttributeName: 'ID'
+          KeyType: 'HASH'
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  MyEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: ami-xxxxxxxxxxxxxxxxx
+      InstanceType: t2.micro
+
+  MySNSTopic:
+    Type: 'AWS::SNS::Topic'
+    Properties:
+      DisplayName: 
+        Fn::Sub: 'MySNS-${Environment}'
+
+Outputs:
+  S3BucketName:
+    Value: !Ref MyS3Bucket
+    Description: 'Name of the created S3 bucket'
+
+  DynamoDBTableName:
+    Value: !Ref MyDynamoDBTable
+    Description: 'Name of the created DynamoDB table'
